@@ -1,0 +1,210 @@
+\documentclass{memoir}
+
+\usepackage{calc}
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{lstcustom}
+
+\usetikzlibrary{shapes.geometric}
+
+\usepackage[margin=0.5in]{geometry}
+
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+
+
+
+
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  tnode/.style = {treenode, circle, black, draw=black, inner sep=2pt, minimum width=2em},
+  subtree/.style = {draw,dashed,shape border uses incircle,
+  isosceles triangle,shape border rotate=90, minimum height=1cm},
+  tnull/.style = {treenode, rectangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em}
+}
+
+
+
+\newcommand{\treespace}{\vspace{12pt}}
+
+\newcommand{\treewidth}{.6\textwidth}
+
+
+
+
+\begin{document}
+
+\begin{vplace}
+
+\begin{figure}[h!]
+\begin{center}
+
+ \textbf{\huge Splay Tree Rotations} 
+
+\treespace
+
+\resizebox{\treewidth}{!}{%
+\begin{tikzpicture}[level/.style={sibling distance = 2cm), level distance=2cm}]
+
+
+% Start initial tree
+\node [tnode] (y) {y}
+      [child anchor=north] 
+   child{ node [tnode] {x}
+      [child anchor=north]
+      child{ node [subtree] {A} }
+      child{ node [subtree] {B} }
+    }
+    child{
+       node [subtree] (c) {C} 
+    }       
+; 
+% End initial tree
+
+% Start initial tree
+\node [tnode, right of=y, right=5cm] (xnew) {x}
+    [child anchor=north] 
+    child{
+       node [subtree] (anew) {A} 
+    } 
+   child{ node [tnode] (ynew) {y}
+      [child anchor=north]
+      child{ node [subtree] {B} }
+      child{ node [subtree] {C} }
+    }
+
+; 
+
+\draw[->, shorten <=.75cm, shorten >=.75cm][thick] (c) to[out=0,in=180] node [auto]{Zig} (anew);
+
+%\draw[gray,step=0.25] (-2.5,-4.5) grid (9, .5);
+
+\end{tikzpicture}
+}%
+
+\treespace
+
+\resizebox{\treewidth}{!}{%
+  \begin{tikzpicture}[level/.style={sibling distance = 2cm), level distance=2cm}] %[level/.style={sibling distance = 5cm/(2^#1), level distance=1.5cm}] 
+
+
+% Start initial tree
+\node [tnode] (z) {z}
+      [child anchor=north] 
+   child{ node [tnode] {y}
+      [child anchor=north]
+      child{
+        node [tnode] {x}
+        child { node [subtree] {A} }
+        child { node [subtree] {B} }
+      }
+      child{ node [subtree] {C} }
+    }
+    child{
+       node [subtree] (d) {D} 
+    }       
+; 
+% End initial tree
+
+% Start initial tree
+\node [tnode, right of=y, right=5cm] (xnew) {x}
+    [child anchor=north] 
+    child{
+       node [subtree] (anew) {A} 
+    } 
+    child {
+      node [tnode] {y}
+      child { node [subtree] {B} }
+      child { node [tnode] (znew) {z}
+        [child anchor=north]
+        child{ node [subtree] {C} }
+        child{ node [subtree] {D} }
+      }
+    }
+
+; 
+
+\draw[->, shorten <=.75cm, shorten >=.75cm][thick] (d) to[out=0,in=180] node [auto]{Zig-zig} (anew);
+
+\end{tikzpicture}
+}%
+
+\treespace
+
+\resizebox{\treewidth}{!}{%
+\begin{tikzpicture}[level/.style={sibling distance = 2cm), level distance=2cm}]
+
+
+% Start initial tree
+\node [tnode] (z) {z}
+      [child anchor=north] 
+   child{ node [tnode] {y}
+      [child anchor=north]
+      child{ node [subtree] {A} }
+      child{
+        node [tnode] {x}
+        child { node [subtree] {B} }
+        child { node [subtree] {C} }
+      }
+    }
+    child{
+       node [subtree] (d) {D} 
+    }       
+; 
+% End initial tree
+
+% Start initial tree
+\node [tnode, right of=y, right=6cm] (xnew) {x}
+    [child anchor=north, level/.style={sibling distance=6cm/2^#1}] 
+    child{
+      node [tnode] (ynew) {y} 
+      child { node [subtree] {A} }
+      child { node [subtree] {B} }
+    } 
+    child {
+      node [tnode] {z}
+      child { node [subtree] {C} }
+      child { node [subtree] {D} }
+    }
+
+; 
+
+\draw[->, shorten <=.75cm, shorten >=.75cm][thick] (d) to[out=0,in=180] node [auto]{Zig-zag} (anew);
+
+\end{tikzpicture}
+}%
+
+The figure does not depict symmetric
+ cases.
+
+\end{center}
+\end{figure}
+
+
+\section*{When to splay}
+
+\begin{itemize}
+
+\item \lstinline$search(element)$: If the element is found in a node \textit{u}, we splay
+  \textit{u}.  Otherwise, we splay the node where the search
+  terminates unsuccessfully.
+
+\item \lstinline$insert(element)$: We splay the newly created node that contains the element.
+
+\item \lstinline$remove(element)$: We splay the parent of the node that contains the element. If
+  the node is the root, we splay its left child or right child. If the
+  element is not in the tree, we splay the node where the search
+  terminates unsuccessfully.
+
+\end{itemize}
+
+
+\end{vplace}
+
+
+\end{document}
