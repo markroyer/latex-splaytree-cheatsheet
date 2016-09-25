@@ -1,8 +1,24 @@
 # latex-splaytree-cheatsheet
-A one page tikz splay tree cheatsheet.
 
-This project is useful for studying splay trees.  The balancing
-rotations can be printed on a single page.
+**latex-splaytree-cheatsheet** is a one page splay tree study guide
+  for splay tree rotations.
+
+This project is useful for students that are learning splay tree data
+structures.  The balancing rotations can be printed on a single page.
+
+The splay tree rotations are created using tikz, so this project may
+also be of interest to those creating tree structure diagrams in
+Latex using tikz.
+
+## PDF and Example Screenshot
+
+The built Latex PDF can be downloaded
+[here](https://raw.githubusercontent.com/wiki/markroyer/latex-splaytree-cheatsheet/splaytree.pdf).
+
+A low quality example image of the cheatsheet is shown below.
+
+![Splay Rotations](https://raw.githubusercontent.com/wiki/markroyer/latex-splaytree-cheatsheet/splaytree.png
+ "Splay Rotations")
 
 ## Setup
 
